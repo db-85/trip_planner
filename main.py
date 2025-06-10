@@ -1,5 +1,4 @@
 import streamlit as st
-import folium
 from streamlit_folium import st_folium
 from trip_components import LLMHandler, GeocodingHandler, MapHandler
 
@@ -62,7 +61,10 @@ def main():
         
         # Create and display map
         map_obj = map_handler.create_map(st.session_state.spots_with_coords)
-        map_data = st_folium(map_obj, width=700, height=500, key="trip_map")
+        if map_obj is not None:
+            map_data = st_folium(map_obj, width=700, height=500, key="trip_map")
+        else:
+            st.error("Could not create map for the selected spots.")
         
         # Display spot details
         st.subheader("Spot Details")
